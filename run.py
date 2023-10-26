@@ -8,7 +8,8 @@ max_rows = 24
 board_size = (min(max_columns, 5), min(max_rows, 5))
 
 # Initialize the game board
-board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
+player_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
+computer_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
 
 # Initialize the player and computer ship positions
 player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
@@ -19,9 +20,16 @@ def clear_line():
     sys.stdout.write("\033[K")
 
 
-# Function to print the game board
-def print_board(board):
-    for row in board:
+# Function to print the player's game board
+def print_player_board():
+    print("Player's Game Board:")
+    for row in player_board:
+        print(" ".join(row))
+
+# Function to print the computer's game board
+def print_computer_board():
+    print("Computer's Game Board:")
+    for row in computer_board:
         print(" ".join(row))
 
 
@@ -49,41 +57,44 @@ def check_guess(row, col, target_ship):
 # Main game loop
 def play_battleships():
     print("Welcome to Battleships!")
-
+    
     while True:
-        # Print the game board
-        print_board(board)
-
+        # Print the player's game board
+        print_player_board()
+        
         # Player's turn
         player_row, player_col = get_user_guess()
         if check_guess(player_row, player_col, computer_ship):
             print("Congratulations! You've sunk the computer's battleship!")
             break
         else:
-            if board[player_row][player_col] == 'O':
+            if player_board[player_row][player_col] == 'O':
                 print("You missed. Try again.")
-                board[player_row][player_col] = 'X'
+                player_board[player_row][player_col] = 'X'
             else:
                 print("You already guessed this location.")
-
+        
         time.sleep(1)  # Pause for a moment
-
+        
         # Clear the previous board display
-        for _ in range(board_size[1]):
+        for _ in range(board_size[1] + 4):
             clear_line()
             sys.stdout.write("\033[A")
-
+        
+        # Print the computer's game board
+        print_computer_board()
+        
         # Computer's turn
         computer_row, computer_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
         print(f"The computer takes a guess at position: {computer_row} {computer_col}")
-
+        
         if check_guess(computer_row, computer_col, player_ship):
             print("The computer has sunk your battleship! You lose.")
             break
         else:
-            if board[computer_row][computer_col] == 'O':
+            if computer_board[computer_row][computer_col] == 'O':
                 print("The computer missed.")
-                board[computer_row][computer_col] = 'X'
+                computer_board[computer_row][computer_col] = 'X'
             else:
                 print("The computer already guessed this location.")
         
