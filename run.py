@@ -52,3 +52,14 @@ while running:
 
     # Fills screen with white
     screen.fill(WHITE)
+
+     # Draw the game board including hit and grid lines
+    for row in range(GRID_SIZE):
+        for col in range(GRID_SIZE):
+            pygame.draw.rect(screen, RED, (col * CELL_SIZE, row * CELL_SIZE, 
+            CELL_SIZE, CELL_SIZE), 1)
+            if board[row][col] == "X":
+                pygame.draw.circle(screen, RED, (col * CELL_SIZE + CELL_SIZE // 
+                2, row * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 2 - 2)
+    # Updatine the display for the current game board
+     pygame.display.update()
