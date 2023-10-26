@@ -48,18 +48,20 @@ def print_boards_with_coordinates(player_board, computer_board):
     print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
 
 
-# Function to get the user's guess (row and column)
+# Function to get the user's guess (column and row)
 def get_user_guess():
     while True:
         try:
-            guess = input(f"Enter your guess (row and column, max {board_size[0] - 1} {board_size[1] - 1}): ")
-            row, col = map(int, guess.split())
-            if 0 <= row < board_size[0] and 0 <= col < board_size[1]:
+            guess = input(f"Enter your guess (column row, max {board_size[0] - 1} {board_size[1] - 1}): ")
+            col, row = guess.split()
+            col = ord(col.upper()) - ord('A')  # Convert column letter to zero-based index
+            row = int(row)
+            if 0 <= col < board_size[0] and 0 <= row < board_size[1]:
                 return row, col
             else:
-                print("Invalid input. Please enter valid row and column values.")
+                print("Invalid input. Please enter valid column and row values.")
         except (ValueError, IndexError):
-            print("Invalid input. Please enter valid row and column values.")
+            print("Invalid input. Please enter valid column and row values.")
 
 
 # Function to check if a guess hits a ship
@@ -92,7 +94,7 @@ def play_battleships():
         time.sleep(1)  # Pause for a moment
 
         # Clear the previous board display
-        for _ in range(board_size[1] * 4 + 7):
+        for _ in range(board_size[0] + 5):
             clear_line()
             sys.stdout.write("\033[A")
 
@@ -110,12 +112,9 @@ def play_battleships():
             else:
                 print("The computer already guessed this location.")
 
-        time.sleep(1)  # Pause for a moment
+    time.sleep(1)  # Pause for a moment
 
-        # Clear the previous board display
-        for _ in range(board_size[1] * 4 + 7):
-            clear_line()
-            sys.stdout.write("\033[A")
+    clear
 
 
 # Start the game if this script is run as the main program
