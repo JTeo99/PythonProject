@@ -21,25 +21,40 @@ def clear_line():
     sys.stdout.write("\033[K")
 
 
-# Function to print the game boards with coordinates
+# Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    # Print column labels
-    header = " " * 4  # Initial empty space
+    # Print column labels for the player's grid
+    print("Player's Grid:")
+    header = " " * 6
     for col in range(board_size[0]):
-        header += f"{col:2d} "
+        header += f"{col:3d} "
     print(header)
-    
+
     for row in range(board_size[1]):
-        row_str = f"{row:2d} | "  # Row label
+        row_str = f"{row:3d} | "  # Row label for the player's grid
         for col in range(board_size[0]):
             row_str += player_board[row][col] + "  "
-        row_str += " | "  # Gap between player and computer boards
+        row_str += " |"
+        print(row_str)
+
+    # Add a gap between player and computer grids
+    print("\n" + " " * 6 + "+-" + "----+" * board_size[0] + "\n")
+
+    # Print column labels for the computer's grid
+    print("Computer's Grid:")
+    header = " " * 6
+    for col in range(board_size[0]):
+        header += f"{col:3d} "
+    print(header)
+
+    for row in range(board_size[1]):
+        row_str = f"{row:3d} | "  # Row label for the computer's grid
         for col in range(board_size[0]):
             row_str += computer_board[row][col] + "  "
+        row_str += " |"
         print(row_str)
-        print("  | " + " " * (board_size[0] * 3) + " |")
 
-    horizontal_line = "  +-" + "---+" * board_size[0]
+    horizontal_line = " " * 6 + "+-" + "----+" * board_size[0]
     print(horizontal_line)
 
 
@@ -69,7 +84,7 @@ def play_battleships():
     print("Welcome to Battleships!")
 
     while True:
-        # Print both game boards with coordinates
+        # Print both game boards with coordinates and labels
         print_boards_with_coordinates(player_board, computer_board)
 
         # Player's turn
@@ -87,7 +102,7 @@ def play_battleships():
         time.sleep(1)  # Pause for a moment
 
         # Clear the previous board display
-        for _ in range(board_size[1] * 2 + 5):
+        for _ in range(board_size[1] * 4 + 7):
             clear_line()
             sys.stdout.write("\033[A")
 
@@ -108,7 +123,7 @@ def play_battleships():
         time.sleep(1)  # Pause for a moment
 
         # Clear the previous board display
-        for _ in range(board_size[1] * 2 + 5):
+        for _ in range(board_size[1] * 4 + 7):
             clear_line()
             sys.stdout.write("\033[A")
 
