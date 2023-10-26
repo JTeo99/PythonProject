@@ -23,8 +23,8 @@ max_rows = 24
 board_size = get_grid_size()
 
 # Initialize the player and computer game boards with labels
-player_board = [[" " for _ in range(board_size[1] + 2)] for _ in range(board_size[0] + 2)]
-computer_board = [[" " for _ in range(board_size[1] + 2)] for _ in range(board_size[0] + 2)]
+player_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
+computer_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
 
 
 # Initialize the player and computer ship positions
