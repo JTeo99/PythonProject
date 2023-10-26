@@ -1,12 +1,16 @@
 import random
 
+# Initialize the game board size (limit to 80 columns and 24 rows)
+max_columns = 80
+max_rows = 24
+board_size = (min(max_columns, 5), min(max_rows, 5))
+
 # Initialize the game board
-board_size = 5
-board = [["O" for _ in range(board_size)] for _ in range(board_size)]
+board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
 
 # Initialize the player and computer ship positions
-player_ship = [(random.randint(0, board_size - 1), random.randint(0, board_size - 1))]
-computer_ship = [(random.randint(0, board_size - 1), random.randint(0, board_size - 1))]
+player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
+computer_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)]
 
 # Function to print the game board
 def print_board(board):
@@ -59,3 +63,7 @@ def play_battleships():
             board[computer_row][computer_col] = "X"
         
         print_board(board)
+
+# Start the game if this script is run as the main program
+if __name__ == "__main__":
+    play_battleships()
