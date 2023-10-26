@@ -22,10 +22,10 @@ max_columns = 80
 max_rows = 24
 board_size = get_grid_size()
 
-
 # Initialize the player and computer game boards with labels
-player_board = [[" " for _ in range(board_size[0] + 1)] for _ in range(board_size[1] + 1)]
-computer_board = [[" " for _ in range(board_size[0] + 1)] for _ in range(board_size[1] + 1)]
+player_board = [[" " for _ in range(board_size[1] + 2)] for _ in range(board_size[0] + 2)]
+computer_board = [[" " for _ in range(board_size[1] + 2)] for _ in range(board_size[0] + 2)]
+
 
 # Initialize the player and computer ship positions
 player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
@@ -39,25 +39,13 @@ def clear_line():
 
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    headers = [list(range(board_size[0] + 1)), list(range(board_size[0] + 1))]
-    headers[0][0] = " "
-    headers[1][0] = " "
-    headers[0][1] = "|"
-    headers[1][1] = "|"
-
-    player_board[0][1:] = headers[0][2:]
-    computer_board[0][1:] = headers[0][2:]
-    player_board[1][1:] = headers[1][2:]
-    computer_board[1][1:] = headers[1][2:]
-
-    player_table = tabulate(player_board, headers, tablefmt="grid")
-    computer_table = tabulate(computer_board, headers, tablefmt="grid")
+    player_board_with_coordinates = [[""] + list(range(board_size[0]))] + [[str(i)] + row for i, row in enumerate(player_board)]
+    computer_board_with_coordinates = [[""] + list(range(board_size[0]))] + [[str(i)] + row for i, row in enumerate(computer_board)]
 
     print("Player's Grid:")
-    print(player_table)
-    print()
-    print("Computer's Grid:")
-    print(computer_table)
+    print(tabulate(player_board_with_coordinates, tablefmt="grid"))
+    print("\nComputer's Grid:")
+    print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
 
 
 # Function to get the user's guess (row and column)
@@ -95,9 +83,9 @@ def play_battleships():
             print("Congratulations! You've sunk the computer's battleship!")
             break
         else:
-            if player_board[player_row + 2][player_col + 2] == ' ':
+            if player_board[player_row][player_col] == ' ':
                 print("You missed. Try again.")
-                player_board[player_row + 2][player_col + 2] = 'X'
+                player_board[player_row][player_col] = 'X'
             else:
                 print("You already guessed this location.")
 
@@ -116,9 +104,9 @@ def play_battleships():
             print("The computer has sunk your battleship! You lose.")
             break
         else:
-            if computer_board[computer_row + 2][computer_col + 2] == ' ':
+            if computer_board[computer_row][computer_col] == ' ':
                 print("The computer missed.")
-                computer_board[computer_row + 2][computer_col + 2] = 'X'
+                computer_board[computer_row][computer_col] = 'X'
             else:
                 print("The computer already guessed this location.")
 
