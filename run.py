@@ -25,36 +25,36 @@ def clear_line():
 def print_boards_with_coordinates(player_board, computer_board):
     # Print column labels for the player's grid
     print("Player's Grid:")
-    header = " " * 6
+    header = " " * 4
     for col in range(board_size[0]):
-        header += f"{col:3d} "
+        header += f"{col:2d} "
     print(header)
 
     for row in range(board_size[1]):
-        row_str = f"{row:3d} | "  # Row label for the player's grid
+        row_str = f"{row:2d} | "  # Row label for the player's grid
         for col in range(board_size[0]):
             row_str += player_board[row][col] + "  "
         row_str += " |"
         print(row_str)
 
     # Add a gap between player and computer grids
-    print("\n" + " " * 6 + "+-" + "----+" * board_size[0] + "\n")
+    print(" " * 6 + "+--" + "----+" * board_size[0] + "\n")
 
     # Print column labels for the computer's grid
     print("Computer's Grid:")
-    header = " " * 6
+    header = " " * 4
     for col in range(board_size[0]):
-        header += f"{col:3d} "
+        header += f"{col:2d} "
     print(header)
 
     for row in range(board_size[1]):
-        row_str = f"{row:3d} | "  # Row label for the computer's grid
+        row_str = f"{row:2d} | "  # Row label for the computer's grid
         for col in range(board_size[0]):
             row_str += computer_board[row][col] + "  "
         row_str += " |"
         print(row_str)
 
-    horizontal_line = " " * 6 + "+-" + "----+" * board_size[0]
+    horizontal_line = " " * 6 + "+--" + "----+" * board_size[0]
     print(horizontal_line)
 
 
