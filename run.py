@@ -3,7 +3,6 @@ import sys
 import time
 from tabulate import tabulate
 
-
 # Function to get user input for the grid size
 def get_grid_size():
     while True:
@@ -16,7 +15,6 @@ def get_grid_size():
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
 
-
 # Initialize the game board size (limit to 80 columns and 24 rows)
 max_columns = 80
 max_rows = 24
@@ -26,36 +24,32 @@ board_size = get_grid_size()
 player_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
 computer_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
 
-
 # Initialize the player and computer ship positions
 player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
 computer_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
-
 
 # Function to clear the current line in the terminal
 def clear_line():
     sys.stdout.write("\033[K")
 
-
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    player_board_with_coordinates = [[""] + list(range(board_size[0]))] + [[str(i)] + row for i, row in enumerate(player_board)]
-    computer_board_with_coordinates = [[""] + list(range(board_size[0]))] + [[str(i)] + row for i, row in enumerate(computer_board)]
+    player_board_with_coordinates = [[""] + list(range(board_size[1]))] + [[str(i + 1)] + row for i, row in enumerate(player_board)]
+    computer_board_with_coordinates = [[""] + list(range(board_size[1]))] + [[str(i + 1)] + row for i, row in enumerate(computer_board)]
 
     print("Player's Grid:")
     print(tabulate(player_board_with_coordinates, tablefmt="grid"))
     print("\nComputer's Grid:")
     print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
 
-
 # Function to get the user's guess (column and row)
 def get_user_guess():
     while True:
         try:
-            guess = input(f"Enter your guess (column row, max {board_size[0] - 1} {board_size[1] - 1}): ")
+            guess = input(f"Enter your guess (column row, max {chr(ord('A') + board_size[0] - 1)} {board_size[1] - 1}): ")
             col, row = guess.split()
             col = ord(col.upper()) - ord('A')  # Convert column letter to zero-based index
-            row = int(row)
+            row = int(row) - 1  # Convert row number to zero-based index
             if 0 <= col < board_size[0] and 0 <= row < board_size[1]:
                 return row, col
             else:
@@ -63,13 +57,11 @@ def get_user_guess():
         except (ValueError, IndexError):
             print("Invalid input. Please enter valid column and row values.")
 
-
 # Function to check if a guess hits a ship
 def check_guess(row, col, target_ship):
     if (row, col) in target_ship:
         return True
     return False
-
 
 # Main game loop
 def play_battleships():
@@ -100,7 +92,7 @@ def play_battleships():
 
         # Computer's turn
         computer_row, computer_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
-        print(f"The computer takes a guess at position: {computer_row} {computer_col}")
+        print(f"The computer takes a guess at position: {chr(computer_col + ord('A'))} {computer_row + 1}")
 
         if check_guess(computer_row, computer_col, player_ship):
             print("The computer has sunk your battleship! You lose.")
@@ -114,8 +106,12 @@ def play_battleships():
 
     time.sleep(1)  # Pause for a moment
 
-    clear
+    # Calculate the number of rows needed to clear the screen
+    rows_to_clear = (board_size[1] + 5) * 2  # Includes player's grid, headers, and computer's grid
 
+    # Clear the screen by using sys and printing newline characters
+    for _ in range(rows_to_clear):
+        sys.stdout.write("\033[K\n")
 
 # Start the game if this script is run as the main program
 if __name__ == "__main__":
