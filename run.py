@@ -3,6 +3,11 @@ import sys
 import time
 from tabulate import tabulate
 
+# ANSI color codes
+GREEN = '\033[92m'
+RED = '\033[91m'
+RESET = '\033[0m'
+
 
 # Function to get user input for the grid size
 def get_grid_size():
@@ -31,6 +36,11 @@ player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_si
 computer_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
 
 
+# Function to print messages in color
+def print_message(message, color=RESET):
+    print(color + message + RESET)
+
+
 # Function to clear the current line in the terminal
 def clear_line():
     sys.stdout.write("\033[K")
@@ -39,17 +49,16 @@ def clear_line():
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
     player_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-                                   [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
-                                   [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
+        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
+        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
     computer_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-                                     [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
-                                     [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
+        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
+        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
 
     print("Player's Grid:")
     print(tabulate(player_board_with_coordinates, tablefmt="grid"))
     print("\nComputer's Grid:")
     print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
-
 
 
 # Function to get the user's guess (row and column)
@@ -77,7 +86,7 @@ def check_guess(row, col, target_ship):
 
 # Main game loop
 def play_battleships():
-    print("Welcome to Battleships!")
+    print_message("Welcome to Battleships!", GREEN)
 
     while True:
         # Print both game boards with coordinates and labels
@@ -86,14 +95,14 @@ def play_battleships():
         # Player's turn
         player_row, player_col = get_user_guess()
         if check_guess(player_row, player_col, computer_ship):
-            print("Congratulations! You've sunk the computer's battleship!")
+            print_message("Congratulations! You've sunk the computer's battleship!", GREEN)
             break
         else:
             if player_board[player_row][player_col] == ' ':
-                print("You missed. Try again.")
+                print_message("You missed. Try again.", RED)
                 player_board[player_row][player_col] = 'X'
             else:
-                print("You already guessed this location.")
+                print_message("You already guessed this location.", RED)
 
         time.sleep(1)  # Pause for a moment
 
@@ -104,17 +113,17 @@ def play_battleships():
 
         # Computer's turn
         computer_row, computer_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
-        print(f"The computer takes a guess at position: {chr(ord('A') + computer_row)} {computer_col + 1}")
+        print_message(f"The computer takes a guess at position: {chr(ord('A') + computer_row)} {computer_col + 1}", GREEN)
 
         if check_guess(computer_row, computer_col, player_ship):
-            print("The computer has sunk your battleship! You lose.")
+            print_message("The computer has sunk your battleship! You lose.", RED)
             break
         else:
             if computer_board[computer_row][computer_col] == ' ':
-                print("The computer missed.")
+                print_message("The computer missed.", RED)
                 computer_board[computer_row][computer_col] = 'X'
             else:
-                print("The computer already guessed this location.")
+                print_message("The computer already guessed this location.", RED)
 
     time.sleep(1)  # Pause for a moment
 
