@@ -16,18 +16,17 @@ def clear_terminal():
 
 
 # Function to get user input for the grid size
-# Function to get user input for the grid size
 def get_grid_size():
     while True:
         try:
             rows = int(input("Enter the number of rows (2-6): "))
-            cols = int(input("Enter the number of columns (2-12): "))
-            if 2 <= rows <= 6 and 2 <= cols <= 12:
-                return rows, cols
+            columns = int(input("Enter the number of columns (2-6): "))
+            if 2 <= rows <= 6 and 2 <= columns <= 6:
+                return rows, columns
             else:
-                print("Invalid input. Rows must be between 2 and 6, and columns must be between 2 and 12.")
+                print("Invalid input. Rows and columns must be between 2 and 6.")
         except ValueError:
-            print("Invalid input. Please enter valid integers for rows and columns.")
+            print("Invalid input. Please enter valid integers.")
 
 
 # Initialize the game board size (limit to 80 columns and 24 rows)
@@ -60,25 +59,25 @@ def clear_line():
 
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    # Clear the terminal
     clear_terminal()
 
-    # Add row headings to player's grid
-    player_board_with_coordinates = [[str(i + 1)] + row for i, row in enumerate(player_board)]
+    player_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
+        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
+        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
+    computer_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
+        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
+        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
 
-    # Print player's grid with both row and column headers
+    # Print player's grid with headers
     print("Player's Grid:")
-    print(tabulate(player_board_with_coordinates, tablefmt="grid", headers=[chr(ord('A') + i) for i in range(board_size[1])]))
+    print(tabulate(player_board_with_coordinates, tablefmt="grid"))
 
     # Add a gap between player and computer grids
     print("\n" + " " * 6 + "+--" + "--+" * board_size[1] + "\n")
 
-    # Add row headings to computer's grid
-    computer_board_with_coordinates = [[str(i + 1)] + row for i, row in enumerate(computer_board)]
-
-    # Print computer's grid with both row and column headers
+    # Print computer's grid with headers
     print("Computer's Grid:")
-    print(tabulate(computer_board_with_coordinates, tablefmt="grid", headers=[chr(ord('A') + i) for i in range(board_size[1])]))
+    print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
 
 
 # Function to get the user's guess (row and column)
