@@ -38,13 +38,18 @@ def clear_line():
 
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    player_board_with_coordinates = [[""] + list(range(1, board_size[1] + 1))] + [[chr(ord('A') + i)] + row for i, row in enumerate(player_board)]
-    computer_board_with_coordinates = [[""] + list(range(1, board_size[1] + 1))] + [[chr(ord('A') + i)] + row for i, row in enumerate(computer_board)]
+    player_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
+                                   [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
+                                   [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
+    computer_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
+                                     [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
+                                     [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
 
     print("Player's Grid:")
     print(tabulate(player_board_with_coordinates, tablefmt="grid"))
     print("\nComputer's Grid:")
     print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
+
 
 
 # Function to get the user's guess (row and column)
