@@ -1,15 +1,31 @@
 import random
 import sys
 import time
+from tabulate import tabulate
+
+
+# Function to get user input for the grid size
+def get_grid_size():
+    while True:
+        try:
+            size = int(input("Enter the grid size (2-8): "))
+            if 2 <= size <= 8:
+                return size, size
+            else:
+                print("Invalid input. Grid size must be between 2 and 8.")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+
 
 # Initialize the game board size (limit to 80 columns and 24 rows)
 max_columns = 80
 max_rows = 24
-board_size = (min(max_columns, 5), min(max_rows, 5))
+board_size = get_grid_size()
 
-# Initialize the player and computer game boards
-player_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
-computer_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
+
+# Initialize the player and computer game boards with labels
+player_board = [[" " for _ in range(board_size[0] + 1)] for _ in range(board_size[1] + 1)]
+computer_board = [[" " for _ in range(board_size[0] + 1)] for _ in range(board_size[1] + 1)]
 
 # Initialize the player and computer ship positions
 player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
@@ -23,39 +39,25 @@ def clear_line():
 
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    # Print column labels for the player's grid
+    headers = [list(range(board_size[0] + 1)), list(range(board_size[0] + 1))]
+    headers[0][0] = " "
+    headers[1][0] = " "
+    headers[0][1] = "|"
+    headers[1][1] = "|"
+
+    player_board[0][1:] = headers[0][2:]
+    computer_board[0][1:] = headers[0][2:]
+    player_board[1][1:] = headers[1][2:]
+    computer_board[1][1:] = headers[1][2:]
+
+    player_table = tabulate(player_board, headers, tablefmt="grid")
+    computer_table = tabulate(computer_board, headers, tablefmt="grid")
+
     print("Player's Grid:")
-    header = " " * 4
-    for col in range(board_size[0]):
-        header += f"{col:2d} "
-    print(header)
-
-    for row in range(board_size[1]):
-        row_str = f"{row:2d} | "  # Row label for the player's grid
-        for col in range(board_size[0]):
-            row_str += player_board[row][col] + "  "
-        row_str += " |"
-        print(row_str)
-
-    # Add a gap between player and computer grids
-    print(" " * 6 + "+--" + "----+" * board_size[0] + "\n")
-
-    # Print column labels for the computer's grid
+    print(player_table)
+    print()
     print("Computer's Grid:")
-    header = " " * 4
-    for col in range(board_size[0]):
-        header += f"{col:2d} "
-    print(header)
-
-    for row in range(board_size[1]):
-        row_str = f"{row:2d} | "  # Row label for the computer's grid
-        for col in range(board_size[0]):
-            row_str += computer_board[row][col] + "  "
-        row_str += " |"
-        print(row_str)
-
-    horizontal_line = " " * 6 + "+--" + "----+" * board_size[0]
-    print(horizontal_line)
+    print(computer_table)
 
 
 # Function to get the user's guess (row and column)
@@ -93,9 +95,9 @@ def play_battleships():
             print("Congratulations! You've sunk the computer's battleship!")
             break
         else:
-            if player_board[player_row][player_col] == 'O':
+            if player_board[player_row + 2][player_col + 2] == ' ':
                 print("You missed. Try again.")
-                player_board[player_row][player_col] = 'X'
+                player_board[player_row + 2][player_col + 2] = 'X'
             else:
                 print("You already guessed this location.")
 
@@ -114,9 +116,9 @@ def play_battleships():
             print("The computer has sunk your battleship! You lose.")
             break
         else:
-            if computer_board[computer_row][computer_col] == 'O':
+            if computer_board[computer_row + 2][computer_col + 2] == ' ':
                 print("The computer missed.")
-                computer_board[computer_row][computer_col] = 'X'
+                computer_board[computer_row + 2][computer_col + 2] = 'X'
             else:
                 print("The computer already guessed this location.")
 
