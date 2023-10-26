@@ -16,16 +16,18 @@ def clear_terminal():
 
 
 # Function to get user input for the grid size
+# Function to get user input for the grid size
 def get_grid_size():
     while True:
         try:
-            size = int(input("Enter the grid size (2-6): "))
-            if 2 <= size <= 6:
-                return size, size
+            rows = int(input("Enter the number of rows (2-6): "))
+            cols = int(input("Enter the number of columns (2-12): "))
+            if 2 <= rows <= 6 and 2 <= cols <= 12:
+                return rows, cols
             else:
-                print("Invalid input. Grid size must be between 2 and 6.")
+                print("Invalid input. Rows must be between 2 and 6, and columns must be between 2 and 12.")
         except ValueError:
-            print("Invalid input. Please enter a valid integer.")
+            print("Invalid input. Please enter valid integers for rows and columns.")
 
 
 # Initialize the game board size (limit to 80 columns and 24 rows)
@@ -83,7 +85,7 @@ def print_boards_with_coordinates(player_board, computer_board):
 def get_user_guess():
     while True:
         try:
-            guess = input(f"Enter your guess (rowcolumn, max {chr(ord('A') + board_size[0] - 1)}{board_size[1]}): ")
+            guess = input(f"Enter your guess (e.g., A1, max {chr(ord('A') + board_size[1] - 1)}{board_size[0]}): ")
             col_row = guess.upper()
             col = ord(col_row[0]) - ord('A')  # Convert column letter to zero-based index
             row = int(col_row[1:]) - 1  # Subtract 1 to convert from 1-based to 0-based index
