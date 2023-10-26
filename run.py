@@ -60,8 +60,11 @@ def play_battleships():
             print("Congratulations! You've sunk the computer's battleship!")
             break
         else:
-            print("You hit the computer's battleship!")
-            board[player_row][player_col] = 'P'
+            if board[player_row][player_col] == 'O':
+                print("You missed. Try again.")
+                board[player_row][player_col] = 'X'
+            else:
+                print("You already guessed this location.")
 
         time.sleep(1)  # Pause for a moment
 
@@ -73,13 +76,16 @@ def play_battleships():
         # Computer's turn
         computer_row, computer_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
         print(f"The computer takes a guess at position: {computer_row} {computer_col}")
-        
+
         if check_guess(computer_row, computer_col, player_ship):
             print("The computer has sunk your battleship! You lose.")
             break
         else:
-            print("The computer hit your battleship!")
-            board[computer_row][computer_col] = 'C'
+            if board[computer_row][computer_col] == 'O':
+                print("The computer missed.")
+                board[computer_row][computer_col] = 'X'
+            else:
+                print("The computer already guessed this location.")
         
         time.sleep(1)  # Pause for a moment
         
