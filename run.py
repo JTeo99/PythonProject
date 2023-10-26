@@ -1,6 +1,9 @@
 import pygame
 import random
 
+# pylint: disable=no-member
+# Your Pygame code here
+
 # Initialize Pygame
 pygame.init()
 
@@ -60,15 +63,15 @@ while running:
             rect_width = CELL_SIZE
             rect_height = CELL_SIZE
             pygame.draw.rect(screen, RED, (rect_x, rect_y, rect_width, rect_height), 1)
-            
+
             if board[row][col] == "X":
                 circle_x = col * CELL_SIZE + CELL_SIZE // 2
                 circle_y = row * CELL_SIZE + CELL_SIZE // 2
                 circle_radius = CELL_SIZE // 2 - 2
                 pygame.draw.circle(screen, RED, (circle_x, circle_y), circle_radius)
-    
+
     # Updating the display for the current game board
-    pygame.display.update()
+    pygame.display.flip()
 
     # Check for game over
     if all(cell == "X" for row in board for cell in row):
