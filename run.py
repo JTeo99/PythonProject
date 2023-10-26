@@ -31,3 +31,31 @@ def check_guess(row, col, target_ship):
     if (row, col) in target_ship:
         return True
     return False
+
+# Main game loop
+def play_battleships():
+    print("Welcome to Battleships!")
+    print_board(board)
+    
+    while True:
+        # Player's turn
+        player_row, player_col = get_user_guess()
+        if check_guess(player_row, player_col, computer_ship):
+            print("Congratulations! You've sunk the computer's battleship!")
+            break
+        else:
+            print("You missed. Try again.")
+            board[player_row][player_col] = "X"
+        
+        # Computer's turn
+        computer_row, computer_col = random.randint(0, board_size - 1), random.randint(0, board_size - 1)
+        print("The computer takes a guess at position: {} {}".format(computer_row, computer_col))
+        
+        if check_guess(computer_row, computer_col, player_ship):
+            print("The computer has sunk your battleship! You lose.")
+            break
+        else:
+            print("The computer missed.")
+            board[computer_row][computer_col] = "X"
+        
+        print_board(board)
