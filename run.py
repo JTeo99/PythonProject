@@ -2,6 +2,7 @@ import random
 import sys
 import time
 from tabulate import tabulate
+import os
 
 # ANSI color codes
 GREEN = '\033[92m'
@@ -9,15 +10,20 @@ RED = '\033[91m'
 RESET = '\033[0m'
 
 
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033[H")
+
+
 # Function to get user input for the grid size
 def get_grid_size():
     while True:
         try:
-            size = int(input("Enter the grid size (2-8): "))
-            if 2 <= size <= 8:
+            size = int(input("Enter the grid size (2-6): "))
+            if 2 <= size <= 6:
                 return size, size
             else:
-                print("Invalid input. Grid size must be between 2 and 8.")
+                print("Invalid input. Grid size must be between 2 and 6.")
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
 
@@ -28,12 +34,16 @@ max_rows = 24
 board_size = get_grid_size()
 
 # Initialize the player and computer game boards with labels
-player_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
-computer_board = [[" " for _ in range(board_size[1])] for _ in range(board_size[0])]
+player_board = [[" " for _ in range(board_size[1])]
+                for _ in range(board_size[0])]
+computer_board = [[" " for _ in range(board_size[1])]
+                  for _ in range(board_size[0])]
 
 # Initialize the player and computer ship positions
-player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
-computer_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
+player_ship = [(random.randint(0, board_size[0] - 1),
+                random.randint(0, board_size[1] - 1))]
+computer_ship = [(random.randint(0, board_size[0] - 1),
+                  random.randint(0, board_size[1] - 1))]
 
 
 # Function to print messages in color
@@ -48,17 +58,25 @@ def clear_line():
 
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
-    player_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
-        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
-    computer_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
-        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
+    # Clear the terminal
+    clear_terminal()
 
+    # Add row headings to player's grid
+    player_board_with_coordinates = [[str(i + 1)] + row for i, row in enumerate(player_board)]
+
+    # Print player's grid with both row and column headers
     print("Player's Grid:")
-    print(tabulate(player_board_with_coordinates, tablefmt="grid"))
-    print("\nComputer's Grid:")
-    print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
+    print(tabulate(player_board_with_coordinates, tablefmt="grid", headers=[chr(ord('A') + i) for i in range(board_size[1])]))
+
+    # Add a gap between player and computer grids
+    print("\n" + " " * 6 + "+--" + "--+" * board_size[1] + "\n")
+
+    # Add row headings to computer's grid
+    computer_board_with_coordinates = [[str(i + 1)] + row for i, row in enumerate(computer_board)]
+
+    # Print computer's grid with both row and column headers
+    print("Computer's Grid:")
+    print(tabulate(computer_board_with_coordinates, tablefmt="grid", headers=[chr(ord('A') + i) for i in range(board_size[1])]))
 
 
 # Function to get the user's guess (row and column)
@@ -89,6 +107,7 @@ def play_battleships():
     print_message("Welcome to Battleships!", GREEN)
 
     while True:
+        clear_terminal()
         # Print both game boards with coordinates and labels
         print_boards_with_coordinates(player_board, computer_board)
 
@@ -126,13 +145,6 @@ def play_battleships():
                 print_message("The computer already guessed this location.", RED)
 
     time.sleep(1)  # Pause for a moment
-
-    # Calculate the number of rows needed to clear the screen
-    rows_to_clear = (board_size[0] + 5) * 2  # Includes player's grid, headers, and computer's grid
-
-    # Clear the screen by using sys and printing newline characters
-    for _ in range(rows_to_clear):
-        sys.stdout.write("\033[K\n")
 
 
 # Start the game if this script is run as the main program
