@@ -57,25 +57,31 @@ def clear_line():
     sys.stdout.write("\033[K")
 
 
+# Function to generate the board with coordinates and labels
+def generate_board_with_coordinates(board):
+    header = [""]
+    header += [chr(ord('A') + i) for i in range(board_size[1])]
+    header += [""]
+    result = [header]
+
+    for i, row in enumerate(board):
+        result.append([str(i + 1)] + row + [str(i + 1)])
+    result.append(header)
+    return result
+
+
 # Function to print the game boards with coordinates and labels
 def print_boards_with_coordinates(player_board, computer_board):
     clear_terminal()
+    player_board_with_coordinates = generate_board_with_coordinates(player_board)
+    computer_board_with_coordinates = generate_board_with_coordinates(computer_board)
 
-    player_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(player_board)] + \
-        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
-    computer_board_with_coordinates = [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]] + \
-        [[str(i + 1)] + row + [str(i + 1)] for i, row in enumerate(computer_board)] + \
-        [[""] + [chr(ord('A') + i) for i in range(board_size[1])] + [""]]
-
-    # Print player's grid with headers
     print("Player's Grid:")
     print(tabulate(player_board_with_coordinates, tablefmt="grid"))
 
     # Add a gap between player and computer grids
     print("\n" + " " * 6 + "+--" + "--+" * board_size[1] + "\n")
 
-    # Print computer's grid with headers
     print("Computer's Grid:")
     print(tabulate(computer_board_with_coordinates, tablefmt="grid"))
 
@@ -86,8 +92,10 @@ def get_user_guess():
         try:
             guess = input(f"Enter your guess (e.g., A1, max {chr(ord('A') + board_size[1] - 1)}{board_size[0]}): ")
             col_row = guess.upper()
-            col = ord(col_row[0]) - ord('A')  # Convert column letter to zero-based index
-            row = int(col_row[1:]) - 1  # Subtract 1 to convert from 1-based to 0-based index
+            # Convert column letter to zero-based index
+            col = ord(col_row[0]) - ord('A')
+            # Subtract 1 to convert from 1-based to 0-based index
+            row = int(col_row[1:]) - 1
             if 0 <= col < board_size[1] and 0 <= row < board_size[0]:
                 return row, col
             else:
