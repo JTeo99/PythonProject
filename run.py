@@ -22,7 +22,30 @@ pygame.display.set_caption("Battleships")
 
 # Creating the game board. Uses "O" to represent empty cells in the board
 board = [["O" for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)
-
 # Place the battleship at a random location within the grid
 ship_row = random.randint(0, GRID_SIZE - 1)
 ship_col = random.randint(0, GRID_SIZE - 1)
+
+# Game loop - game runs as long as running is true
+running = True
+while running:
+      for event in pygame.event.get():
+        # If event tupe is 'pygame.QUIT', running is set to false
+        if event.type == pygame.QUIT:
+            running = False
+        # Obtains position of mouse click to work out corresponding grid space
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = pygame.mouse.get_pos()
+            guess_row = y // CELL_SIZE
+            guess_col = x // CELL_SIZE
+
+            # Check if the guess is valid
+            if board[guess_row][guess_col] == "X":
+                continue
+
+            # Check if the guess is a hit or miss
+            if guess_row == ship_row and guess_col == ship_col:
+                board[guess_row][guess_col] = "X"
+                print("Congratulations! You sunk my battleship!")
+            else:
+                board[guess_row][guess_col] = "X"
