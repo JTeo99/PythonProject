@@ -49,3 +49,6 @@ while running:
                 print("Congratulations! You sunk my battleship!")
             else:
                 board[guess_row][guess_col] = "X"
+
+    # Fills screen with white
+    screen.fill(WHITE)
