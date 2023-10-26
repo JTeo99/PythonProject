@@ -7,7 +7,7 @@ max_columns = 80
 max_rows = 24
 board_size = (min(max_columns, 5), min(max_rows, 5))
 
-# Initialize the game board
+# Initialize the player and computer game boards
 player_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
 computer_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[1])]
 
@@ -15,22 +15,32 @@ computer_board = [["O" for _ in range(board_size[0])] for _ in range(board_size[
 player_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
 computer_ship = [(random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1))]
 
+
 # Function to clear the current line in the terminal
 def clear_line():
     sys.stdout.write("\033[K")
 
 
-# Function to print the player's game board
-def print_player_board():
-    print("Player's Game Board:")
-    for row in player_board:
-        print(" ".join(row))
+# Function to print the game boards with coordinates
+def print_boards_with_coordinates(player_board, computer_board):
+    # Print column labels
+    header = " " * 4  # Initial empty space
+    for col in range(board_size[0]):
+        header += f"{col:2d} "
+    print(header)
+    
+    for row in range(board_size[1]):
+        row_str = f"{row:2d} | "  # Row label
+        for col in range(board_size[0]):
+            row_str += player_board[row][col] + "  "
+        row_str += " | "  # Gap between player and computer boards
+        for col in range(board_size[0]):
+            row_str += computer_board[row][col] + "  "
+        print(row_str)
+        print("  | " + " " * (board_size[0] * 3) + " |")
 
-# Function to print the computer's game board
-def print_computer_board():
-    print("Computer's Game Board:")
-    for row in computer_board:
-        print(" ".join(row))
+    horizontal_line = "  +-" + "---+" * board_size[0]
+    print(horizontal_line)
 
 
 # Function to get the user's guess (row and column)
@@ -57,11 +67,11 @@ def check_guess(row, col, target_ship):
 # Main game loop
 def play_battleships():
     print("Welcome to Battleships!")
-    
+
     while True:
-        # Print the player's game board
-        print_player_board()
-        
+        # Print both game boards with coordinates
+        print_boards_with_coordinates(player_board, computer_board)
+
         # Player's turn
         player_row, player_col = get_user_guess()
         if check_guess(player_row, player_col, computer_ship):
@@ -73,21 +83,18 @@ def play_battleships():
                 player_board[player_row][player_col] = 'X'
             else:
                 print("You already guessed this location.")
-        
+
         time.sleep(1)  # Pause for a moment
-        
+
         # Clear the previous board display
-        for _ in range(board_size[1] + 4):
+        for _ in range(board_size[1] * 2 + 5):
             clear_line()
             sys.stdout.write("\033[A")
-        
-        # Print the computer's game board
-        print_computer_board()
-        
+
         # Computer's turn
         computer_row, computer_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
         print(f"The computer takes a guess at position: {computer_row} {computer_col}")
-        
+
         if check_guess(computer_row, computer_col, player_ship):
             print("The computer has sunk your battleship! You lose.")
             break
@@ -97,11 +104,11 @@ def play_battleships():
                 computer_board[computer_row][computer_col] = 'X'
             else:
                 print("The computer already guessed this location.")
-        
+
         time.sleep(1)  # Pause for a moment
-        
+
         # Clear the previous board display
-        for _ in range(board_size[1] + 4):
+        for _ in range(board_size[1] * 2 + 5):
             clear_line()
             sys.stdout.write("\033[A")
 
