@@ -50,12 +50,12 @@ def reset_board(board_size):
     return player_board, comp_board
 
 
-def print_message(message, color=RESET):  # Function to print messages in color
-    print(color + message + RESET)
+def print_message(message, color=RESET):  
+    print(color + message + RESET)  # Function to print messages in color
 
 
-def clear_line():  # Function to clear the current line in the terminal
-    sys.stdout.write("\033[K")
+def clear_line():  
+    sys.stdout.write("\033[K")  # clears the current line in the terminal
 
 
 def generate_coordinates(board, board_size):
@@ -79,15 +79,12 @@ def print_coordinates(player_board, comp_board, board_size):
     """
     Function to print both game boards with coordinates and labels. It creates
     the visual representation of the game boards and their labels.
-    """
-    player_coordinates = generate_coordinates(player_board, board_size)
-    comp_coordinates = generate_coordinates(comp_board, board_size)
-
-    """
-    Prints labels for the Player's side of the grid and Computer's side of the
+   Prints labels for the Player's side of the grid and Computer's side of the
     grid. Initializes an empty list to later store the combined grid for the
     player and the computer.
     """
+    player_coordinates = generate_coordinates(player_board, board_size)
+    comp_coordinates = generate_coordinates(comp_board, board_size)
 
     # Print labels above the table
     print("Player's Grid" + "    " * board_size[1] + "Computer's Grid")
@@ -108,6 +105,11 @@ def get_user_guess(board_size):
     """
     Function to get the user's guess (row and column). It ensures that the
     user's input is correctly formatted and within the game's bounds.
+    checks for "restart" as an input to stop the rest of the game
+    and clear the terminal. Time library for 1 second break before
+    'calling play-battleships()' to rebuild the game. Checks that
+    input is valid and within the parameters of the game and sends error
+    message if a non valid input is received.
     """
     while True:
         try:
@@ -115,18 +117,14 @@ def get_user_guess(board_size):
 
             if (guess == "restart"):
                 """
-                checks for "restart" as an input to stop the rest of the game
-                and clear the terminal. Time library for 1 second
-                break before 'calling play-battleships()' to rebuild the game.
+                
                 """
                 clear_terminal()
                 time.sleep(1)
                 play_battleships()
-
-            """
-            Converts stored guess to upper case
-            """
-            col_row = guess.upper()
+            
+            
+            col_row = guess.upper()  # Converts stored guess to upper case
 
             # Column letter to zero-based index
             col = ord(col_row[0]) - ord('A')
@@ -161,7 +159,11 @@ def play_battleships():
     """
     Main game loop function. It manages the game logic, including player and
     computer turns, checking for hits, and asking if the player wants to
-    play again.
+    play again. Sends short statement about user guessing right/wrong.
+    On computer's turn, game randomely selects a set of coordinates
+    within the range of the grid and prints the location by which the
+    computer chose. Player loses if Computer guesses correctly but
+    loops to player pick if computer is incorrect.
     """
     while True:
 
@@ -198,12 +200,6 @@ def play_battleships():
                 clear_line()
                 sys.stdout.write("\033[A")
 
-            '''
-            Computer's turn to pick. Randomely selects a set of coordinates
-            within the range of the grid and prints the location by which the
-            computer chose. Player loses if Computer guesses correctly but
-            loops to player pick if computer is incorrect.
-            '''
             comp_row, comp_col = random.randint(0, board_size[0] - 1), random.randint(0, board_size[1] - 1)
             print_message(f"The computer takes a guess at position: {chr(ord('A') + comp_row)} {comp_col + 1}", GREEN)
 
@@ -217,11 +213,9 @@ def play_battleships():
 
             else:
                 print_message("The computer already guessed here.", RED)
-        """
-        restart built into the game
-        """
+        
         restart = input("Do you want to play again? (yes/no): ").strip().lower()
-        if restart != 'yes':
+        if restart != 'yes':  # Restart built into the game
             break
 
 
