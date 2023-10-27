@@ -8,10 +8,77 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/attach/attach.js"></script>
-    <title>Python Terminal by Code Institute</title>
+    <!-- Font Awesome-->
+    <script src="https://kit.fontawesome.com/baf9609738.js" crossorigin="anonymous"></script>
+    <title>Battleships</title>
     <style>
         body {
+            background: url("") no-repeat center / cover;
             font-family: Arial;
+	        margin: 0;
+	        width: 100vw;
+	        height: 100vh;
+        }
+
+        .wrapper {
+	        width: 100vw;
+	        height: 100vh;
+	        display: flex;
+	        flex-direction: column;
+	        justify-content: flex-start
+
+        }
+
+        #button {
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            font-weight: bold;
+            width: 200px;
+            height: 40px;
+            background-color: #90b0be;
+            border: 2px solid #01222c;
+            color: #01222c;
+            text-transform: uppercase;
+            margin: 25px auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #01222c;
+            color: #90b0be;
+            border: 2px solid #90b0be;
+        }
+
+        #terminal {
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer {
+	        position: fixed;
+	        bottom: 0;
+	        width: 100%;
+	        text-align: center;
+	        background-color: #FFF;
+	        height: 50px;
+	        color: #FFF;
+        }
+
+        .social-icons {
+	        color: #000;
+	        font-size: 2rem;
+	        padding: 10px;
+	        margin-bottom: 10px;
+        }
+
+        .social-icons:hover {
+	    color: #01222c;
         }
 
         /**
