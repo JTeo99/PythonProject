@@ -32,9 +32,6 @@ def get_grid_size():
             print("Invalid input. Please enter valid integers.")
 
 
-# Initialize the game board size (limit to 80 columns and 24 rows)
-max_columns = 80
-max_rows = 24
 board_size = get_grid_size()
 
 
@@ -45,6 +42,7 @@ def reset_board():
     computer_board = [[" " for _ in range(board_size[1])]
                       for _ in range(board_size[0])]
     return player_board, computer_board
+
 
 # Initialize the player and computer ship positions
 player_board, computer_board = reset_board()
@@ -108,13 +106,16 @@ def get_user_guess():
 
             # Subtract 1 to convert from 1-based to 0-based index
             row = int(col_row[1:]) - 1
+
             if 0 <= col < board_size[1] and 0 <= row < board_size[0]:
 
                 clear_terminal()
                 time.sleep(1)
                 return row, col
+
             else:
                 print("Invalid input. Please enter valid row and column values.")
+
         except (ValueError, IndexError):
             print("Invalid input. Please enter valid row and column values.")
 
@@ -137,6 +138,10 @@ def play_battleships():
         while True:
             # Print both game boards with coordinates and labels
             print_coordinates(player_board, computer_board)
+            player_ship = [(random.randint(0, board_size[0] - 1),
+                            random.randint(0, board_size[1] - 1))]
+            computer_ship = [(random.randint(0, board_size[0] - 1),
+                              random.randint(0, board_size[1] - 1))]
 
             # Player's turn
             player_row, player_col = get_user_guess()
@@ -175,6 +180,7 @@ def play_battleships():
         restart = input("Do you want to play again? (yes/no): ").strip().lower()
         if restart != 'yes':
             break
+
 
 # Start the game if this script is run as the main program
 if __name__ == "__main__":
