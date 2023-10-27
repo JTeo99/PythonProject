@@ -56,6 +56,7 @@ This shows that the module was relatively clear with the only errors found were 
 
 ## Accessibility
 ![Lighthouse](img/lighthouse.jpg)
+
 Using the lighthouse tool, it can be seen that the page shows high levels of accessibility for users. Althought the performance score is low. This may be due to inbuilt delays within the tool after clearing board which occurs frequently in order to allow for slower pcs to not experience issues when loading the grids.
 
 ## Issues
