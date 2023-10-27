@@ -34,6 +34,7 @@ different grid sizes can be chosen from 2x2 to 6x6
 ![Grid size 6x2](img/6x2grid.jpg)
 
 Guesses are made by typing in the terminal and wrong guesses are sent a corresponding message and not accepted!
+This loop will continue unless a valid input is accepted and will continue to reject and invalid choice. Typing restart can also be used to restart the game to exit from this loop
 ![Valid Input](img/b2Input.jpg)
 ![Invalid Input](img/invalidInput.jpg)
 ![invalid Input](img/2x3invalid.jpg)
@@ -54,7 +55,7 @@ The PEP8CI app was used to lint the code to ensure that everything is within sta
 This shows that the module was relatively clear with the only errors found were a couple of warnings due to line length. Although this does not affect the functionality of the program, I understand this could cause issues with the long term sustainability of the program as the editing of the program could be harder with some of the longer line lengths.
 
 ## Issues
-- The main issue during creation of the program was the clearing function. Within the CodeEverywhere codespace, the terminal could sometimes not clear all the items within the terminal when the function was called. However after changing terminal sizes and browsing I found this was a limitation of the terminal consoles and not the code itself.
+- The main issue during creation of the program was the clearing function. Within the CodeEverywhere codespace, the terminal could sometimes not clear all the items within the terminal when the function was called. However after changing terminal sizes and browsing I found this was a limitation of the terminal consoles and not the code itself. Furthermore, when using grid sizes of a larger number (e.g. allowing 7 or 8 columns and rows), the grids would not successfully clear leaving parts of old grids behind. For this, the max grid size was reduced to accomodate for the clearing function.
 
 ## Possible Future Development
 In the future, some possible improvements to the game would be:
