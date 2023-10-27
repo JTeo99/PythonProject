@@ -1,32 +1,61 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Battleships Game
 
-Welcome,
+This is a command-line implementation of the classic Battleships game. The game features a player grid and a computer grid, and players take turns guessing the locations of each other's ships.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
+## Dependencies
 
-## Reminders
+- `tabulate`: A Python library for formatting tables in the console.
+- `colorama`: A library for adding colored output to the terminal.
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+## Game Functions
 
-## Creating the Heroku app
+### `clear_terminal()`
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+- Clears the terminal screen to remove previous instances of the game.
 
-1. `heroku/python`
-2. `heroku/nodejs`
+### `get_grid_size()`
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+- Obtains the user's input for the grid size, ensuring that the number of rows and columns is between 2 and 6.
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+### `reset_board(board_size)`
 
-Connect your GitHub repository and deploy as normal.
+- Initializes the player and computer game boards with empty cells.
 
-## Constraints
+### `print_message(message, color=RESET)`
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+- Prints messages in color to the terminal.
 
----
+### `clear_line()`
 
-Happy coding!
+- Clears the current line in the terminal.
+
+### `generate_coordinates(board, board_size)`
+
+- Generates the game board with coordinates and labels, including row numbers and column letters.
+
+### `print_coordinates(player_board, comp_board, board_size)`
+
+- Prints both game boards with coordinates and labels, creating a visual representation of the game grids.
+
+### `get_user_guess(board_size)`
+
+- Gets the user's guess for a cell, ensuring correct input format and valid coordinates.
+- Supports the "restart" command to clear the terminal and restart the game.
+- Converts user input to uppercase for uniformity.
+
+### `check_guess(row, col, target_ship)`
+
+- Checks if a guess hits a ship by comparing the input row and column to a target ship's positions.
+
+### `play_battleships()`
+
+- The main game loop function that manages the game logic.
+- Alternates between player and computer turns, checking for hits.
+- Notifies the player of their success or failure.
+- Provides the option to play the game again.
+
+## Running the Game
+
+- Run this script as the main program to start the Battleships game.
+
+Have fun playing Battleships!

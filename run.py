@@ -50,11 +50,11 @@ def reset_board(board_size):
     return player_board, comp_board
 
 
-def print_message(message, color=RESET):  
+def print_message(message, color=RESET):
     print(color + message + RESET)  # Function to print messages in color
 
 
-def clear_line():  
+def clear_line():
     sys.stdout.write("\033[K")  # clears the current line in the terminal
 
 
@@ -117,13 +117,12 @@ def get_user_guess(board_size):
 
             if (guess == "restart"):
                 """
-                
+
                 """
                 clear_terminal()
                 time.sleep(1)
                 play_battleships()
-            
-            
+
             col_row = guess.upper()  # Converts stored guess to upper case
 
             # Column letter to zero-based index
@@ -213,7 +212,7 @@ def play_battleships():
 
             else:
                 print_message("The computer already guessed here.", RED)
-        
+
         restart = input("Do you want to play again? (yes/no): ").strip().lower()
         if restart != 'yes':  # Restart built into the game
             break
